@@ -116,26 +116,32 @@ class FilmController extends AbstractController
 
 
     /**
-     * @Route("/get/:id_item", name="film_by_id")
+     * @Route("/get/{id_item}", name="film_by_id")
      */
-    public function film_by_id(FilmRepository $filmRepository): JsonResponse
+    public function film_by_id(FilmRepository $filmRepository,$id_item=null): JsonResponse
     {
-        $allFilms=$filmRepository->find(['id'=>]);
-        $data=array();
-        if(empty($allFilms)){
-            $code=400;
-            $message="Aucun Film trouvé !";
-            $http=Response::HTTP_BAD_REQUEST;
-        }else{
+        $data = array();
 
-            foreach ($allFilms as $films){
-                array_push($data,["id"=>$films->getId(),"Nom"=>$films->getNom(),"Synopsis"=>$films->getSynopsis(),"Type"=>$films->getType(),"created_at"=>$films->getCreatedAt()]);
+        if($id_item > 0) {
+
+            $film = $filmRepository->find(['id' => $id_item]);
+            if (empty($film)) {
+                $code = 400;
+                $message = "Aucun Film trouvé pour cette id !";
+                $http = Response::HTTP_BAD_REQUEST;
+            } else {
+
+                $data=["id" => $film->getId(), "Nom" => $film->getNom(), "Synopsis" => $film->getSynopsis(), "Type" => $film->getType(), "created_at" => $film->getCreatedAt()];
+                $code = 200;
+                $message = "Voici le film trouvé pour l'id ".$id_item;
+                $http = Response::HTTP_OK;
             }
-
-            $code=200;
-            $message="Liste de tout les films disponibles dans la BDD !";
-            $http=Response::HTTP_OK;
+        }else{
+            $code = 400;
+            $message = "Vous devez saisir un id supérieur à 0 ! Aucun film trouver pour cette id";
+            $http = Response::HTTP_BAD_REQUEST;
         }
+
 
 
         return new JsonResponse(["message"=>$message,"code"=>$code,"data"=>$data],$http);
