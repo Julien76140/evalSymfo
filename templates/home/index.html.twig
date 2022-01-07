@@ -3,18 +3,30 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container">
+        <div class="row d-flex justify-content-around">
+            {% if films is not empty %}
+            <h1>Liste de tout les films disponible !</h1>
+                <a href="/getall" class="btn btn-primary" id="btn-all">Voir le JSON de tout les films !</a>
+                {% for film in films %}
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ film.Nom }}</h5>
+                                <img src="{{ film.urlimage }}" class="img-fluid" alt="Responsive image" height="100%" width="100%">
+                                <h6><p class="card-text">{{ film.type }}</p></h6>
+                                <p class="card-text">{{ film.Synopsis }}</p>
+                                <a href="/get/{{ film.id }}" class="btn btn-primary">Voir le JSON associé au film </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Julien/Desktop/eval/evalSymfo/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Julien/Desktop/eval/evalSymfo/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+                {% else %}
+                <h1>Aucun film trouvé ! allez sur la route /create sur postman est ajoutez un film !</h1>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}

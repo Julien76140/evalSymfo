@@ -29,14 +29,16 @@ class FilmController extends AbstractController
             $checkKeyName=array_key_exists("nom",$data);
             $checkKeySynopsis=array_key_exists("synopsis",$data);
             $checkKeyType=array_key_exists("type",$data);
+            $checkKeyUrlImage=array_key_exists("url_image",$data);
 
-            if($checkKeyName && $checkKeySynopsis && $checkKeyType){ // si les clés existe...
+            if($checkKeyName && $checkKeySynopsis && $checkKeyType && $checkKeyUrlImage){ // si les clés existe...
 
                 $nom=htmlspecialchars(trim($data["nom"]));
                 $synopsis=htmlspecialchars(trim($data["synopsis"]));
                 $type=htmlspecialchars(trim($data["type"]));
+                $url=htmlspecialchars(trim($data["url_image"]));
 
-                if(!empty($nom) && !empty($synopsis) && !empty($type)){//et qu'elles sont pas vides...
+                if(!empty($nom) && !empty($synopsis) && !empty($type) && !empty($url)){//et qu'elles sont pas vides...
 
                     $checkIfFilmExist=$filmRepository->findBy(['Nom'=>$nom]);
 
@@ -55,6 +57,7 @@ class FilmController extends AbstractController
                     $film->setNom($nom);
                     $film->setSynopsis($synopsis);
                     $film->setType($type);
+                    $film->setUrlImage($url);
                     $film->setCreatedAt($date);
                     $entityManager->persist($film);
                     $entityManager->flush(); //on insere les données
@@ -65,7 +68,7 @@ class FilmController extends AbstractController
 
                 }else{
                     $code=400;
-                    $message="Le nom, synopsis ou type est vide ! Veuillez rééssayer !";
+                    $message="Le nom, synopsis, url_image ou type est vide ! Veuillez rééssayer !";
                     $http=Response::HTTP_BAD_REQUEST;
 
                 }
@@ -102,9 +105,8 @@ class FilmController extends AbstractController
         }else{
 
             foreach ($allFilms as $films){ //si des Films existe alors on les push dans un array pour ensuite les afficher dans la réponse
-                array_push($data,["id"=>$films->getId(),"Nom"=>$films->getNom(),"Synopsis"=>$films->getSynopsis(),"Type"=>$films->getType(),"created_at"=>$films->getCreatedAt()]);
+                array_push($data,["id"=>$films->getId(),"Nom"=>$films->getNom(),"Synopsis"=>$films->getSynopsis(),"Type"=>$films->getType(),"url_image"=>$films->getUrlImage(),"created_at"=>$films->getCreatedAt()]);
             }
-
             $code=200;
             $message="Liste de tout les films disponibles dans la BDD !";
             $http=Response::HTTP_OK;
@@ -131,7 +133,7 @@ class FilmController extends AbstractController
                 $http = Response::HTTP_BAD_REQUEST;
             } else {
 
-                $data=["id" => $film->getId(), "Nom" => $film->getNom(), "Synopsis" => $film->getSynopsis(), "Type" => $film->getType(), "created_at" => $film->getCreatedAt()];
+                $data=["id" => $film->getId(), "Nom" => $film->getNom(), "Synopsis" => $film->getSynopsis(), "Type" => $film->getType(),"url_image"=>$film->getUrlImage(), "created_at" => $film->getCreatedAt()];
                 $code = 200;
                 $message = "Voici le film trouvé pour l'id ".$id_item;
                 $http = Response::HTTP_OK;

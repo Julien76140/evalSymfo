@@ -33,6 +33,11 @@ class Film
     private $Type;
 
     /**
+     * @ORM\Column(type="string", length=1000)
+     */
+    private $url_image;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $created_at;
@@ -88,5 +93,21 @@ class Film
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlImage()
+    {
+        return $this->url_image;
+    }
+
+    /**
+     * @param mixed $url_image
+     */
+    public function setUrlImage($url_image): void
+    {
+        $this->url_image = $url_image;
     }
 }
