@@ -13,7 +13,7 @@ INSTALLATION SYMFONY
 
 ROUTES DISPONIBLE
 
-- "/" Page d'acceuil contenant une vue sur les films disponible dans la base de donnée.
+- "/" Page d'acceuil contenant une vue sur les films disponible dans la base de donnée du plus récent au plus ancien ajouté.
 - "/getall" Page retournant un JSON de tout les films disponible dans la base de données.
 - "/get/{id_film}" Page retournant un JSON du film sélectionné par son id, exemple si dans votre base de donnée il y a dans votre table film, un film qui contient l'id "1" alors 
   -pour avoir son JSON il suffit d'aller sur la route "/get/1" etc.
