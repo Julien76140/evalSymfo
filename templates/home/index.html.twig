@@ -17,6 +17,7 @@
                                 <img src="{{ film.urlimage }}" class="img-fluid" alt="Responsive image" height="100%" width="100%">
                                 <h6><p class="card-text">{{ film.type }}</p></h6>
                                 <p class="card-text">{{ film.Synopsis }}</p>
+                                <p class="card-text">Date d'insertion du film : <br><b>{{ film.createdat|date('Y-m-d H:i:s') }}</b></p>
                                 <a href="/get/{{ film.id }}" class="btn btn-primary">Voir le JSON associé au film </a>
                             </div>
                         </div>

@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     public function index(FilmRepository $filmRepository): Response
     {
 
-        $films=$filmRepository->findAll();
+        $films=$filmRepository->findBy(array(),array("created_at"=>"DESC"));
 
         return $this->render('home/index.html.twig', [
             "films"=>$films,
