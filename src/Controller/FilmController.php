@@ -88,13 +88,56 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/getall", name="get_all_film", methods={"POST"})
+     * @Route("/getall", name="get_all_film")
      */
     public function get_all_film(FilmRepository $filmRepository): JsonResponse
     {
         $allFilms=$filmRepository->findAll();
 
+        $data=array();
+        if(empty($allFilms)){ //On regarde si un film existe
+            $code=400;
+            $message="Aucun Film trouvé !";
+            $http=Response::HTTP_BAD_REQUEST;
+        }else{
 
-        return new JsonResponse(["message"=>$message,"code"=>$code],$http);
+            foreach ($allFilms as $films){ //si des Films existe alors on les push dans un array pour ensuite les afficher dans la réponse
+                array_push($data,["id"=>$films->getId(),"Nom"=>$films->getNom(),"Synopsis"=>$films->getSynopsis(),"Type"=>$films->getType(),"created_at"=>$films->getCreatedAt()]);
+            }
+
+            $code=200;
+            $message="Liste de tout les films disponibles dans la BDD !";
+            $http=Response::HTTP_OK;
+        }
+
+
+        return new JsonResponse(["message"=>$message,"code"=>$code,"data"=>$data],$http);
+    }
+
+
+    /**
+     * @Route("/get/:id_item", name="film_by_id")
+     */
+    public function film_by_id(FilmRepository $filmRepository): JsonResponse
+    {
+        $allFilms=$filmRepository->find(['id'=>]);
+        $data=array();
+        if(empty($allFilms)){
+            $code=400;
+            $message="Aucun Film trouvé !";
+            $http=Response::HTTP_BAD_REQUEST;
+        }else{
+
+            foreach ($allFilms as $films){
+                array_push($data,["id"=>$films->getId(),"Nom"=>$films->getNom(),"Synopsis"=>$films->getSynopsis(),"Type"=>$films->getType(),"created_at"=>$films->getCreatedAt()]);
+            }
+
+            $code=200;
+            $message="Liste de tout les films disponibles dans la BDD !";
+            $http=Response::HTTP_OK;
+        }
+
+
+        return new JsonResponse(["message"=>$message,"code"=>$code,"data"=>$data],$http);
     }
 }
