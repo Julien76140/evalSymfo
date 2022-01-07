@@ -4,7 +4,7 @@ INSTALLATION SYMFONY
 
 1- Cloner le git
 2- Allez dans le terminal est lancez la commande "composer install".
-3- Allez dans le .env est mofifier si besoin la ligne "DATABASEURL".
+3- Allez dans le .env est modifiez si besoin la ligne "DATABASEURL".
 4- Dans le terminal ensuite créé votre BDD "php bin/console doctrine:database:create".
 5- Faites les migrations avec ces deux commandes "php bin/console make:migration" et "php bin/console doctrine:migrations:migrate"
  - Si ces deux commandes ne fonctionne pas utilisé cette dernière "php bin/console d:s:u --force".
